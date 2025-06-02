@@ -1,5 +1,3 @@
-import Image from 'next/image'
-import Link from 'next/link'
 import { HeroSection } from '../app/components/HeroSection'
 import { ProductCategories } from '../app/components/ProductCategories'
 import { USPSection } from '../app/components/USPSection'

@@ -5,19 +5,19 @@ const categories = [
   {
     title: 'Premium Beverages',
     description: 'Natural, functional drinks for every lifestyle',
-    image: '/images/beverages.jpg',
+    image: '/images/images.jpg',
     link: '/shop/beverages'
   },
   {
     title: 'Nuts Collection',
     description: 'From 100g to bulk quantities',
-    image: '/images/nuts.jpg',
+    image: '/images/images.jpg',
     link: '/shop/nuts'
   },
   {
     title: 'Poultry Feed',
     description: 'Sustainable feed solutions',
-    image: '/images/poultry-feed.jpg',
+    image: '/images/images.jpg',
     link: '/shop/feed'
   }
 ]

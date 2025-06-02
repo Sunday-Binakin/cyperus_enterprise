@@ -5,19 +5,19 @@ const featuredProducts = [
   {
     name: "Original Tigernut Beverage",
     price: "GH₵ 15.00",
-    image: "/images/original-beverage.jpg",
+    image: "/images/images.jpg",
     slug: "original-tigernut-beverage"
   },
   {
     name: "Citrus Limon & Clove",
     price: "GH₵ 18.00",
-    image: "/images/citrus-beverage.jpg",
+    image: "/images/images.jpg",
     slug: "citrus-limon-clove"
   },
   {
     name: "Premium Tigernut (1kg)",
     price: "GH₵ 50.00",
-    image: "/images/tigernut-pack.jpg",
+    image: "/images/images.jpg",
     slug: "premium-tigernut-1kg"
   }
 ]

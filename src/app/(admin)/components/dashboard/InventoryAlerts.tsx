@@ -1,7 +1,5 @@
 'use client'
 
-import { ExclamationTriangleIcon, ArrowTrendingDownIcon } from '@heroicons/react/24/outline'
-
 const inventory = [
   {
     id: 1,
