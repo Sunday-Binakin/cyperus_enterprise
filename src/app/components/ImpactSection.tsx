@@ -1,5 +1,3 @@
-import Image from 'next/image'
-
 export function ImpactSection() {
   return (
     <section className="bg-gray-50 py-24">

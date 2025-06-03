@@ -1,8 +1,5 @@
 'use client'
 
-import Image from 'next/image'
-import Link from 'next/link'
-
 export function HeroSection() {
   return (
     <section className="relative bg-primary-900 text-white">
