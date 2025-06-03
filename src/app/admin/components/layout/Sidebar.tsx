@@ -1,7 +1,6 @@
 'use client'
 
 import Link from 'next/link'
-import Image from 'next/image'
 import { usePathname } from 'next/navigation'
 import { 
   HomeIcon, 
@@ -16,7 +15,7 @@ const navigation = [
   { name: 'Dashboard', href: '/admin', icon: HomeIcon },
   { name: 'Products', href: '/admin/products', icon: CubeIcon },
   { name: 'Orders', href: '/admin/orders', icon: ShoppingCartIcon },
-  { name: 'Pickup Schedule', href: '/admin/pickup', icon: ClockIcon },
+  { name: 'Delivery Schedule', href: '/admin/delivery', icon: ClockIcon },
   { name: 'Content', href: '/admin/content', icon: DocumentTextIcon },
   { name: 'Settings', href: '/admin/settings', icon: CogIcon },
 ]
@@ -28,12 +27,10 @@ export function Sidebar() {
     <div className="hidden md:flex md:w-64 md:flex-col">
       <div className="flex flex-col flex-grow pt-5 bg-white overflow-y-auto">
         <div className="flex items-center flex-shrink-0 px-4">
-          <Image
+          <img
             className="h-8 w-auto"
             src="/logo.png"
             alt="Cyperus Enterprise"
-            width={32}
-            height={32}
           />
         </div>
         <div className="mt-5 flex-1 flex flex-col">
