@@ -3,70 +3,108 @@
 import Link from 'next/link'
 import Image from 'next/image'
 import { usePathname } from 'next/navigation'
-import { 
-  HomeIcon, 
-  CubeIcon, 
-  ShoppingCartIcon, 
-  ClockIcon, 
-  DocumentTextIcon, 
-  CogIcon 
-} from '@heroicons/react/24/outline'
+import { styled, useTheme } from '@mui/material/styles'
+import {
+  Box,
+  Drawer,
+  List,
+  ListItem,
+  ListItemButton,
+  ListItemIcon,
+  ListItemText,
+  Typography,
+  Divider,
+} from '@mui/material'
+import {
+  Dashboard as DashboardIcon,
+  Inventory as InventoryIcon,
+  ShoppingCart as ShoppingCartIcon,
+  LocalShipping as DeliveryIcon,
+  Article as ContentIcon,
+  Settings as SettingsIcon,
+} from '@mui/icons-material'
 
 const navigation = [
-  { name: 'Dashboard', href: '/admin', icon: HomeIcon },
-  { name: 'Products', href: '/admin/products', icon: CubeIcon },
+  { name: 'Dashboard', href: '/admin', icon: DashboardIcon },
+  { name: 'Products', href: '/admin/products', icon: InventoryIcon },
   { name: 'Orders', href: '/admin/orders', icon: ShoppingCartIcon },
-  { name: 'Delivery Schedule', href: '/admin/delivery', icon: ClockIcon },
-  { name: 'Content', href: '/admin/content', icon: DocumentTextIcon },
-  { name: 'Settings', href: '/admin/settings', icon: CogIcon },
+  { name: 'Delivery Schedule', href: '/admin/delivery', icon: DeliveryIcon },
+  { name: 'Content', href: '/admin/content', icon: ContentIcon },
+  { name: 'Settings', href: '/admin/settings', icon: SettingsIcon },
 ]
+
+const drawerWidth = 280
+
+const StyledDrawer = styled(Drawer)(({ theme }) => ({
+  width: drawerWidth,
+  flexShrink: 0,
+  '& .MuiDrawer-paper': {
+    width: drawerWidth,
+    boxSizing: 'border-box',
+    backgroundColor: theme.palette.background.paper,
+    borderRight: 'none',
+    boxShadow: theme.shadows[1],
+  },
+}))
 
 export function Sidebar() {
   const pathname = usePathname()
+  const theme = useTheme()
 
   return (
-    <div className="hidden md:flex md:w-64 md:flex-col">
-      <div className="flex flex-col flex-grow pt-5 bg-white overflow-y-auto">
-        <div className="flex items-center flex-shrink-0 px-4">
-          <Image
-            className="h-8 w-auto"
-            src="/logo.png"
-            alt="Cyperus Enterprise"
-            width={32}
-            height={32}
-          />
-        </div>
-        <div className="mt-5 flex-1 flex flex-col">
-          <nav className="flex-1 px-2 pb-4 space-y-1">
-            {navigation.map((item) => {
-              const isActive = pathname === item.href
-              return (
-                <Link
-                  key={item.name}
-                  href={item.href}
-                  className={`
-                    group flex items-center px-2 py-2 text-sm font-medium rounded-md
-                    ${isActive
-                      ? 'bg-gray-100 text-gray-900'
-                      : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900'}
-                  `}
+    <StyledDrawer variant="permanent" anchor="left">
+      <Box sx={{ p: 3, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+        <Image
+          src="/logo.png"
+          alt="Cyperus Enterprise"
+          width={40}
+          height={40}
+          style={{ width: 'auto', height: '40px' }}
+        />
+        <Typography variant="h6" sx={{ ml: 2, color: theme.palette.text.primary }}>
+          Cyperus
+        </Typography>
+      </Box>
+      <Divider sx={{ mx: 2 }} />
+      <List sx={{ px: 2, py: 1 }}>
+        {navigation.map((item) => {
+          const isActive = pathname === item.href
+          return (
+            <Link
+              key={item.name}
+              href={item.href}
+              style={{ textDecoration: 'none', color: 'inherit' }}
+            >
+              <ListItem disablePadding sx={{ mb: 0.5 }}>
+                <ListItemButton
+                  sx={{
+                    borderRadius: 1,
+                    backgroundColor: isActive ? 'action.selected' : 'transparent',
+                    '&:hover': {
+                      backgroundColor: 'action.hover',
+                    },
+                  }}
                 >
-                  <item.icon
-                    className={`
-                      mr-3 flex-shrink-0 h-6 w-6
-                      ${isActive
-                        ? 'text-gray-500'
-                        : 'text-gray-400 group-hover:text-gray-500'}
-                    `}
-                    aria-hidden="true"
+                  <ListItemIcon sx={{ 
+                    minWidth: 40,
+                    color: isActive ? 'primary.main' : 'text.secondary',
+                  }}>
+                    <item.icon />
+                  </ListItemIcon>
+                  <ListItemText 
+                    primary={item.name}
+                    sx={{
+                      '& .MuiListItemText-primary': {
+                        color: isActive ? 'primary.main' : 'text.primary',
+                        fontWeight: isActive ? 600 : 400,
+                      },
+                    }}
                   />
-                  {item.name}
-                </Link>
-              )
-            })}
-          </nav>
-        </div>
-      </div>
-    </div>
+                </ListItemButton>
+              </ListItem>
+            </Link>
+          )
+        })}      </List>
+    </StyledDrawer>
   )
-} 
+}
