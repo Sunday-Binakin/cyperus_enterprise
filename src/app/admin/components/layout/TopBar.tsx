@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, Fragment } from 'react'
+import { useState } from 'react'
 import { 
   AppBar,
   Box,
@@ -54,7 +54,7 @@ export function TopBar() {
   }
 
   return (
-    <AppBar position="static" color="transparent" elevation={0}>
+    <StyledAppBar>
       <StyledToolbar>
         <Box sx={{ flexGrow: 1 }} />
         <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
@@ -160,6 +160,6 @@ export function TopBar() {
           </Typography>
         </MenuItem>
       </Menu>
-    </AppBar>
+    </StyledAppBar>
   )
 }
