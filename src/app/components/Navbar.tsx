@@ -13,11 +13,10 @@ const Navbar = () => {
   ];
 
   return (
-    <nav className="bg-white shadow-lg fixed w-full z-50">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <nav className="bg-white shadow-lg fixed w-full z-50">      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between h-20">
           <div className="flex items-center">
-            <Link href="/" className="text-2xl font-bold text-[#8B4513]">
+            <Link href="/" className="text-3xl font-normal text-[#8B4513] font-['var(--font-bebas-neue)'] tracking-wider">
               Cyperus Enterprise
             </Link>
           </div>
@@ -28,12 +27,12 @@ const Navbar = () => {
               <Link
                 key={item.label}
                 href={item.href}
-                className="text-gray-700 hover:text-[#8B4513] transition-colors duration-300"
+                className="text-lg font-['var(--font-bebas-neue)'] tracking-wider text-gray-700 hover:text-[#8B4513] transition-colors duration-300"
               >
                 {item.label}
               </Link>
             ))}
-            <button className="bg-[#8B4513] text-white px-6 py-2 rounded-full hover:bg-[#6F3410] transition-colors duration-300">
+            <button className="bg-[#8B4513] text-white px-6 py-2 rounded-full hover:bg-[#6F3410] transition-colors duration-300 text-lg font-['var(--font-bebas-neue)'] tracking-wider">
               Shop Now
             </button>
           </div>
@@ -68,9 +67,7 @@ const Navbar = () => {
               </svg>
             </button>
           </div>
-        </div>
-
-        {/* Mobile Menu */}
+        </div>        {/* Mobile Menu */}
         {isMobileMenuOpen && (
           <div className="md:hidden">
             <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3">
@@ -78,12 +75,12 @@ const Navbar = () => {
                 <Link
                   key={item.label}
                   href={item.href}
-                  className="block px-3 py-2 text-gray-700 hover:text-[#8B4513] transition-colors duration-300"
+                  className="block px-3 py-2 text-lg font-['var(--font-bebas-neue)'] tracking-wider text-gray-700 hover:text-[#8B4513] transition-colors duration-300"
                 >
                   {item.label}
                 </Link>
               ))}
-              <button className="w-full mt-4 bg-[#8B4513] text-white px-6 py-2 rounded-full hover:bg-[#6F3410] transition-colors duration-300">
+              <button className="w-full mt-4 bg-[#8B4513] text-white px-6 py-2 rounded-full hover:bg-[#6F3410] transition-colors duration-300 text-lg font-['var(--font-bebas-neue)'] tracking-wider">
                 Shop Now
               </button>
             </div>
