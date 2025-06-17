@@ -5,7 +5,6 @@ import { FeaturedProducts } from '../app/components/FeaturedProducts'
 import { ImpactSection } from '../app/components/ImpactSection'
 import { NewsletterSection } from '../app/components/NewsletterSection'
 import Navbar from './components/Navbar'
-import Footer from './components/Footer'
 
 export default function Home() {
   return (
@@ -19,7 +18,6 @@ export default function Home() {
         <ImpactSection />
         <NewsletterSection />
       </main>
-      <Footer/>
     </>
   )
 }
