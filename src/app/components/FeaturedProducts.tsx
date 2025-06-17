@@ -3,22 +3,22 @@ import Link from 'next/link'
 
 const featuredProducts = [
   {
-    name: "Original Tigernut Beverage",
-    price: "GH₵ 15.00",
-    image: "/images/images.jpg",
-    slug: "original-tigernut-beverage"
+    name: "Premium Tigernut Flour",
+    price: "$12.99",
+    image: '/images/nut_1.jpg',
+    slug: "1"
   },
   {
-    name: "Citrus Limon & Clove",
-    price: "GH₵ 18.00",
-    image: "/images/images.jpg",
+    name: "Citrus Lemon & Clove Blend",
+    price: "$11.99",
+    image: "/images/nut_2.jpg",
     slug: "citrus-limon-clove"
   },
   {
-    name: "Premium Tigernut (1kg)",
-    price: "GH₵ 50.00",
-    image: "/images/images.jpg",
-    slug: "premium-tigernut-1kg"
+    name: "Raw Cyperus Nuts",
+    price: "$9.99",
+    image: "/images/nut_3.jpg",
+    slug: "3"
   }
 ]
 
@@ -31,7 +31,7 @@ export function FeaturedProducts() {
           {featuredProducts.map((product) => (
             <Link 
               key={product.slug} 
-              href={`/shop/${product.slug}`}
+              href={`/store/${product.slug}`}
               className="group"
             >
               <div className="bg-white rounded-lg overflow-hidden shadow-lg hover:shadow-xl transition">

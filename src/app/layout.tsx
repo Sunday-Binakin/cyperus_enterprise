@@ -1,28 +1,27 @@
 import type { Metadata } from "next";
-import { Bebas_Neue } from "next/font/google";
+import { Inter } from "next/font/google";
 import "./globals.css";
+import Navbar from "./components/Navbar";
+import Footer from "./components/Footer";
 
-const bebasNeue = Bebas_Neue({
-  weight: "400",
-  subsets: ["latin"],
-  display: "swap",
-  variable: "--font-bebas-neue",
-});
+const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "Cyperus Enterprise",
-  description: "Tigernut E-commerce Platform",
+  title: "Cyperus Enterprise - Premium Tigernut Products",
+  description: "Discover our range of premium tigernut products, sustainably sourced and crafted with care.",
 };
 
 export default function RootLayout({
   children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) {
+}: {
+  children: React.ReactNode
+}) {
   return (
-    <html lang="en" className={bebasNeue.variable}>
-      <body className="antialiased" suppressHydrationWarning>
+    <html lang="en">
+      <body className={inter.className}>
+        <Navbar />
         {children}
+        <Footer />
       </body>
     </html>
   );
