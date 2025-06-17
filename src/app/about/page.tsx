@@ -3,7 +3,6 @@
 import { useState } from 'react'
 import Image from 'next/image'
 import Navbar from '../components/Navbar'
-import Footer from '../components/Footer'
 
 const teamMembers = [
   {
@@ -185,7 +184,6 @@ export default function AboutPage() {
           </div>
         </section>
       </main>
-      <Footer />
     </>
   )
 } 

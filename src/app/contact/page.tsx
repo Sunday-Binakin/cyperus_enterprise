@@ -3,7 +3,6 @@
 import { useState } from 'react'
 import Image from 'next/image'
 import Navbar from '../components/Navbar'
-import Footer from '../components/Footer'
 
 const businessHours = [
   { day: 'Monday - Friday', hours: '8:00 AM - 6:00 PM' },
@@ -207,7 +206,6 @@ export default function ContactPage() {
           </div>
         </section>
       </main>
-      <Footer />
     </>
   )
 } 
