@@ -13,11 +13,11 @@ export default function Story() {
 
                     <h2 className="text-4xl font-bold text-white mb-4">
                         More Than Just Tigernut Products<br />
-                        It's a Promise to Your Health.
+                        It&apos;s a Promise to Your Health.
                     </h2>
 
                     <p className="text-white mb-8">
-                        We're not just selling products — we're nourishing lives. Every
+                        We&apos;re not just selling products — we&apos;re nourishing lives. Every
                         recipe is crafted with natural ingredients, guided by health experts,
                         and loved by thousands of satisfied customers. Discover why health-conscious
                         people choose us.
