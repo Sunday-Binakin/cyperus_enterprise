@@ -2,7 +2,7 @@
 
 import { useState, useMemo, useEffect } from 'react';
 import { products } from '@/data/products';
-import { FilterOptions } from '@/types/product';
+import { FilterOptions, ProductCategory } from '@/types/product';
 import Image from 'next/image';
 import { Search, Filter, Star, ShoppingCart, Heart, X } from 'lucide-react';
 import Navbar from '@/components/store/Navbar';
