@@ -2,7 +2,7 @@
 
 import { useState, useMemo, useEffect } from 'react';
 import { products } from '@/data/products';
-import { FilterOptions } from '@/types/product';
+import { FilterOptions, ProductCategory } from '@/types/product';
 import Image from 'next/image';
 import { Search, Filter, Star, ShoppingCart, Heart, X } from 'lucide-react';
 import Navbar from '@/components/store/Navbar';
@@ -182,10 +182,11 @@ export default function StorePage() {
                                                     className="w-full px-4 py-3 rounded-xl bg-gray-50 border-none focus:outline-none focus:ring-2 focus:ring-[#475A22]/20"
                                                     value={filters.priceRange?.min || ''}
                                                     onChange={(e) => setFilters({
+                                                         
                                                         ...filters,
                                                         priceRange: {
-                                                            ...filters.priceRange,
-                                                            min: Number(e.target.value) || 0
+                                                            min: Number(e.target.value) || 0,
+                                                            max: filters.priceRange?.max || 0
                                                         }
                                                     })}
                                                 />
@@ -199,7 +200,7 @@ export default function StorePage() {
                                                     onChange={(e) => setFilters({
                                                         ...filters,
                                                         priceRange: {
-                                                            ...filters.priceRange,
+                                                            min: filters.priceRange?.min || 0,
                                                             max: Number(e.target.value) || 0
                                                         }
                                                     })}
