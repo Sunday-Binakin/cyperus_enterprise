@@ -1,0 +1,34 @@
+{
+  "Next.js Component": {
+    "prefix": "nxtcomp",
+    "body": [
+      "'use client'",
+      "",
+      "import { images } from '../images'",
+      "",
+      "export function ${1:ComponentName}() {",
+      "  return (",
+      "    <div>",
+      "      $2",
+      "    </div>",
+      "  )",
+      "}"
+    ],
+    "description": "Next.js Component with 'use client' directive"
+  },
+  "Next.js Page": {
+    "prefix": "nxtpage",
+    "body": [
+      "import { ${1:ComponentName} } from '../components/${1:ComponentName}'",
+      "",
+      "export default function ${2:PageName}() {",
+      "  return (",
+      "    <main>",
+      "      <${1:ComponentName} />",
+      "    </main>",
+      "  )",
+      "}"
+    ],
+    "description": "Next.js Page with component import"
+  }
+} 

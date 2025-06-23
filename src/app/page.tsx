@@ -1,23 +1,22 @@
-import { HeroSection } from '../app/components/HeroSection'
-import { ProductCategories } from '../app/components/ProductCategories'
-import { USPSection } from '../app/components/USPSection'
-import { FeaturedProducts } from '../app/components/FeaturedProducts'
-import { ImpactSection } from '../app/components/ImpactSection'
-import { NewsletterSection } from '../app/components/NewsletterSection'
-import Navbar from './components/Navbar'
+import Hero from '@/components/Hero'
+import Features from '@/components/Features'
+// import ProductGrid from '@/components/ProductGrid'
+import ProductCategories from '@/components/ProductCategories'
+import TopProducts from '@/components/TopProducts'
+import Newsletter from '@/components/Newsletter'
+import Story from '@/components/Story'
+
 
 export default function Home() {
   return (
     <>
-      <Navbar/>
-      <main className="flex min-h-screen flex-col">
-        <HeroSection />
-        <ProductCategories />
-        <USPSection />
-        <FeaturedProducts />
-        <ImpactSection />
-        <NewsletterSection />
-      </main>
+      <Hero />
+      <Features />
+      <ProductCategories />
+      <TopProducts />
+      {/* <ProductGrid /> */}
+      <Story />
+      <Newsletter />
     </>
   )
 }
