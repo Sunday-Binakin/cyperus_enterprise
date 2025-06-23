@@ -1,197 +1,279 @@
-'use client'
+'use client';
 
-import { useState } from 'react'
-import Image from 'next/image'
-import Link from 'next/link'
-
-// Sample product data - in a real app, this would come from an API or database
-const products = [
-  {
-    id: 1,
-    name: "Premium Tigernut Milk",
-    category: "beverages",
-    price: 29.99,
-    image: "/images/nut_1.jpg",
-    description: "Naturally sweet and creamy tigernut milk, perfect for your daily nutrition.",
-    rating: 4.8,
-    reviews: 124
-  },
-  {
-    id: 2,
-    name: "Raw Tigernut Flour",
-    category: "flour",
-    price: 24.99,
-    image: "/images/nut_2.jpg",
-    description: "Gluten-free flour alternative, rich in fiber and nutrients.",
-    rating: 4.9,
-    reviews: 89
-  },
-  {
-    id: 3,
-    name: "Organic Whole Tigernuts",
-    category: "nuts",
-    price: 19.99,
-    image: "/images/nut_3.jpg",
-    description: "Premium quality whole tigernuts, perfect for snacking.",
-    rating: 4.7,
-    reviews: 156
-  },
-  {
-    id: 4,
-    name: "Tigernut Protein Blend",
-    category: "supplements",
-    price: 39.99,
-    image: "/images/nut_4.jpg",
-    description: "High-protein blend for post-workout recovery.",
-    rating: 4.6,
-    reviews: 78
-  },
-  {
-    id: 5,
-    name: "Tigernut Oil",
-    category: "oils",
-    price: 34.99,
-    image: "/images/nut_5.jpg",
-    description: "Cold-pressed tigernut oil for cooking and skincare.",
-    rating: 4.9,
-    reviews: 92
-  },
-  {
-    id: 6,
-    name: "Tigernut Trail Mix",
-    category: "snacks",
-    price: 14.99,
-    image: "/images/nut_6.jpg",
-    description: "Healthy mix of tigernuts, dried fruits, and seeds.",
-    rating: 4.8,
-    reviews: 143
-  }
-]
-
-const categories = [
-  { id: 'all', name: 'All Products' },
-  { id: 'beverages', name: 'Beverages' },
-  { id: 'flour', name: 'Flour' },
-  { id: 'nuts', name: 'Nuts' },
-  { id: 'supplements', name: 'Supplements' },
-  { id: 'oils', name: 'Oils' },
-  { id: 'snacks', name: 'Snacks' }
-]
+import { useState, useMemo, useEffect } from 'react';
+import { products } from '@/data/products';
+import { FilterOptions } from '@/types/product';
+import Image from 'next/image';
+import { Search, Filter, Star, ShoppingCart, Heart, X } from 'lucide-react';
+import Navbar from '@/components/store/Navbar';
+import Cart from '@/components/store/Cart';
+import ProductCard from '@/components/store/ProductCard';
 
 export default function StorePage() {
-  const [selectedCategory, setSelectedCategory] = useState('all')
-  const [sortBy, setSortBy] = useState('featured')
+    const [filters, setFilters] = useState<FilterOptions>({
+        category: 'all',
+        inStock: 'all',
+        priceRange: null,
+        searchQuery: '',
+    });
+    const [showFilters, setShowFilters] = useState(false);
+    const [hoveredProduct, setHoveredProduct] = useState<string | null>(null);
+    const [currentSlide, setCurrentSlide] = useState(0);
 
-  const filteredProducts = products.filter(product => 
-    selectedCategory === 'all' || product.category === selectedCategory
-  )
+    useEffect(() => {
+        const interval = setInterval(() => {
+            setCurrentSlide((prev) => (prev === 0 ? 1 : 0));
+        }, 20000); // 20 seconds
 
-  const sortedProducts = [...filteredProducts].sort((a, b) => {
-    if (sortBy === 'price-asc') return a.price - b.price
-    if (sortBy === 'price-desc') return b.price - a.price
-    if (sortBy === 'rating') return b.rating - a.rating
-    return 0 // featured
-  })
+        return () => clearInterval(interval);
+    }, []);
 
-  return (
-    <main className="min-h-screen">
-      {/* Store Header */}
-      <section className="bg-[#8B4513] text-white py-24">
-        <div className="container mx-auto px-4">
-          <div className="max-w-4xl mx-auto text-center">
-            <h1 className="text-5xl md:text-7xl font-['var(--font-bebas-neue)'] mb-6">Our Products</h1>
-            <p className="text-xl md:text-2xl text-gray-200">
-              Discover our range of premium tigernut products, crafted with care for your health and wellness.
-            </p>
-          </div>
-        </div>
-      </section>
+    const filteredProducts = useMemo(() => {
+        return products.filter(product => {
+            if (filters.category !== 'all' && product.category !== filters.category) return false;
+            if (filters.inStock !== 'all' && product.inStock !== filters.inStock) return false;
+            if (filters.searchQuery) {
+                const searchLower = filters.searchQuery.toLowerCase();
+                return (
+                    product.name.toLowerCase().includes(searchLower) ||
+                    product.description.toLowerCase().includes(searchLower) ||
+                    product.tags.some(tag => tag.toLowerCase().includes(searchLower))
+                );
+            }
+            return true;
+        });
+    }, [filters]);
 
-      {/* Store Content */}
-      <section className="py-24">
-        <div className="container mx-auto px-4">
-          {/* Filters */}
-          <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-12 space-y-6 md:space-y-0">
-            <div className="flex flex-wrap gap-3">
-              {categories.map(category => (
-                <button
-                  key={category.id}
-                  onClick={() => setSelectedCategory(category.id)}
-                  className={`px-6 py-3 rounded-full text-lg font-medium transition-all duration-300 ${
-                    selectedCategory === category.id
-                      ? 'bg-[#8B4513] text-white shadow-lg transform scale-105'
-                      : 'bg-gray-100 text-gray-700 hover:bg-gray-200 hover:scale-105'
-                  }`}
-                >
-                  {category.name}
-                </button>
-              ))}
-            </div>
-            <select
-              value={sortBy}
-              onChange={(e) => setSortBy(e.target.value)}
-              className="px-6 py-3 border border-gray-300 rounded-full text-lg focus:ring-2 focus:ring-[#8B4513] focus:border-transparent transition-all duration-300 cursor-pointer bg-white"
-            >
-              <option value="featured">Featured</option>
-              <option value="price-asc">Price: Low to High</option>
-              <option value="price-desc">Price: High to Low</option>
-              <option value="rating">Highest Rated</option>
-            </select>
-          </div>
+    return (
+        <div className="min-h-screen bg-[#F9F9F9]">
+            <Navbar />
+            <Cart />
 
-          {/* Product Grid */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12">
-            {sortedProducts.map(product => (
-              <Link 
-                key={product.id}
-                href={`/store/${product.id}`}
-                className="group bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-2"
-              >
-                <div className="relative h-80">
-                  <Image
-                    src={product.image}
-                    alt={product.name}
-                    fill
-                    className="object-cover group-hover:scale-110 transition-transform duration-500"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"/>
-                </div>
-                <div className="p-8">
-                  <div className="flex items-center justify-between mb-4">
-                    <h3 className="text-2xl font-['var(--font-bebas-neue)'] group-hover:text-[#8B4513] transition-colors">
-                      {product.name}
-                    </h3>
-                    <span className="text-2xl font-bold text-[#8B4513]">
-                      ${product.price}
-                    </span>
-                  </div>
-                  <p className="text-gray-600 mb-6 line-clamp-2">{product.description}</p>
-                  <div className="flex items-center justify-between">
-                    <div className="flex items-center space-x-2">
-                      <div className="flex">
-                        {[...Array(5)].map((_, i) => (
-                          <svg
-                            key={i}
-                            className={`w-5 h-5 ${i < Math.floor(product.rating) ? 'text-yellow-400' : 'text-gray-300'}`}
-                            fill="currentColor"
-                            viewBox="0 0 20 20"
-                          >
-                            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                          </svg>
-                        ))}
-                      </div>
-                      <span className="text-gray-600">({product.reviews})</span>
+            {/* Hero Section */}
+            <div className="relative text-white py-20 mt-16">
+                <div className="absolute inset-0 overflow-hidden">
+                    <div className="relative w-full h-full">
+                        <Image
+                            src="/images/slider1.jpg"
+                            alt="Store Hero Background"
+                            fill
+                            className={`object-cover transition-opacity duration-1000 ${currentSlide === 0 ? 'opacity-100' : 'opacity-0'
+                                }`}
+                            priority
+                        />
+                        <Image
+                            src="/images/slider2.png"
+                            alt="Store Hero Background 2"
+                            fill
+                            className={`object-cover transition-opacity duration-1000 ${currentSlide === 1 ? 'opacity-100' : 'opacity-0'
+                                }`}
+                            priority
+                        />
                     </div>
-                    <button className="bg-[#8B4513] text-white px-6 py-2 rounded-full hover:bg-[#6F3410] transition-colors duration-300 transform hover:scale-105">
-                      Add to Cart
-                    </button>
-                  </div>
                 </div>
-              </Link>
-            ))}
-          </div>
+                <div className="container mx-auto px-4 text-center">
+                    <h1 className="text-4xl md:text-5xl font-bold mb-4">Our Products</h1>
+                    <p className="text-lg text-white/80 max-w-2xl mx-auto">
+                        Discover our premium selection of tigernut products, crafted with care and quality.
+                    </p>
+                </div>
+            </div>
+
+            {/* Main Content */}
+            <main className="container mx-auto px-4 -mt-10 pb-16">
+                {/* Search and Filter Bar */}
+                <div className="bg-white rounded-2xl shadow-lg p-8 mb-12">
+                    <div className="flex flex-col md:flex-row md:items-center gap-6">
+                        {/* Search */}
+                        <div className="flex-1">
+                            <div className="relative">
+                                <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
+                                <input
+                                    type="text"
+                                    placeholder="Search for products..."
+                                    className="w-full pl-12 pr-4 py-4 rounded-xl bg-gray-50 border-none focus:outline-none focus:ring-2 focus:ring-[#475A22]/20 transition-all"
+                                    value={filters.searchQuery}
+                                    onChange={(e) => setFilters({ ...filters, searchQuery: e.target.value })}
+                                />
+                            </div>
+                        </div>
+
+                        {/* Filter Toggle */}
+                        <div className="mt-4 md:mt-0">
+                            <button
+                                onClick={() => setShowFilters(!showFilters)}
+                                className={`flex items-center justify-center gap-2 px-6 py-4 rounded-xl transition-all duration-300 ${showFilters
+                                    ? 'bg-[#475A22] text-white'
+                                    : 'bg-gray-50 text-gray-700 hover:bg-gray-100'
+                                    }`}
+                            >
+                                <Filter className="w-5 h-5 " />
+                                <span className="font-medium">Filters</span>
+                                <span className="bg-white/20 px-2 py-1 rounded-lg text-sm ml-2">
+                                    {Object.values(filters).filter(value => value !== 'all' && value !== '').length}
+                                </span>
+                            </button>
+                        </div>
+                    </div>
+
+                    {/* Filter Options */}
+                    {showFilters && (
+                        <div className="mt-8 pt-8 border-t border-gray-100">
+                            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+                                {/* Category Filter */}
+                                <div className="space-y-4">
+                                    <label className="block text-sm font-semibold text-gray-800">Category</label>
+                                    <div className="space-y-2">
+                                        {(['all', 'tigernut_milk', 'tigernut_flour', 'raw_tigernuts', 'tigernut_oil', 'tigernut_snacks'] as const).map((category) => (
+                                            <button
+                                                key={category}
+                                                onClick={() => setFilters({ ...filters, category: category as ProductCategory | 'all' })}
+                                                className={`w-full flex items-center justify-between px-4 py-3 rounded-xl transition-all duration-200 ${filters.category === category
+                                                    ? 'bg-[#475A22] text-white'
+                                                    : 'bg-gray-50 text-gray-700 hover:bg-gray-100'
+                                                    }`}
+                                            >
+                                                <span className="capitalize">
+                                                    {category === 'all' ? 'All Categories' : category.split('_').join(' ')}
+                                                </span>
+                                                {filters.category === category && (
+                                                    <div className="w-2 h-2 rounded-full bg-white" />
+                                                )}
+                                            </button>
+                                        ))}
+                                    </div>
+                                </div>
+
+                                {/* Availability Filter */}
+                                <div className="space-y-4">
+                                    <label className="block text-sm font-semibold text-gray-800">Availability</label>
+                                    <div className="space-y-2">
+                                        {[
+                                            { value: 'all', label: 'All' },
+                                            { value: 'true', label: 'In Stock' },
+                                            { value: 'false', label: 'Out of Stock' }
+                                        ].map((option) => (
+                                            <button
+                                                key={option.value}
+                                                onClick={() => setFilters({ ...filters, inStock: option.value as any })}
+                                                className={`w-full flex items-center justify-between px-4 py-3 rounded-xl transition-all duration-200 ${filters.inStock.toString() === option.value
+                                                    ? 'bg-[#475A22] text-white'
+                                                    : 'bg-gray-50 text-gray-700 hover:bg-gray-100'
+                                                    }`}
+                                            >
+                                                {option.label}
+                                                {filters.inStock.toString() === option.value && (
+                                                    <div className="w-2 h-2 rounded-full bg-white" />
+                                                )}
+                                            </button>
+                                        ))}
+                                    </div>
+                                </div>
+
+                                {/* Price Range Filter */}
+                                <div className="space-y-4">
+                                    <label className="block text-sm font-semibold text-gray-800">Price Range</label>
+                                    <div className="space-y-4">
+                                        <div className="flex gap-4">
+                                            <div className="flex-1">
+                                                <input
+                                                    type="number"
+                                                    placeholder="Min"
+                                                    className="w-full px-4 py-3 rounded-xl bg-gray-50 border-none focus:outline-none focus:ring-2 focus:ring-[#475A22]/20"
+                                                    value={filters.priceRange?.min || ''}
+                                                    onChange={(e) => setFilters({
+                                                        ...filters,
+                                                        priceRange: {
+                                                            ...filters.priceRange,
+                                                            min: Number(e.target.value) || 0
+                                                        }
+                                                    })}
+                                                />
+                                            </div>
+                                            <div className="flex-1">
+                                                <input
+                                                    type="number"
+                                                    placeholder="Max"
+                                                    className="w-full px-4 py-3 rounded-xl bg-gray-50 border-none focus:outline-none focus:ring-2 focus:ring-[#475A22]/20"
+                                                    value={filters.priceRange?.max || ''}
+                                                    onChange={(e) => setFilters({
+                                                        ...filters,
+                                                        priceRange: {
+                                                            ...filters.priceRange,
+                                                            max: Number(e.target.value) || 0
+                                                        }
+                                                    })}
+                                                />
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                {/* Active Filters & Reset */}
+                                <div className="space-y-4">
+                                    <label className="block text-sm font-semibold text-gray-800">Active Filters</label>
+                                    <div className="space-y-2">
+                                        {Object.entries(filters).map(([key, value]) => {
+                                            if (value === 'all' || value === '' || !value) return null;
+                                            return (
+                                                <div key={key} className="flex items-center gap-2 bg-gray-50 px-4 py-2 rounded-xl">
+                                                    <span className="text-sm text-gray-600 capitalize">
+                                                        {key === 'priceRange'
+                                                            ? `$${value.min} - $${value.max}`
+                                                            : value.toString().split('_').join(' ')}
+                                                    </span>
+                                                    <button
+                                                        onClick={() => {
+                                                            if (key === 'priceRange') {
+                                                                setFilters({ ...filters, [key]: null });
+                                                            } else {
+                                                                setFilters({ ...filters, [key]: 'all' });
+                                                            }
+                                                        }}
+                                                        className="ml-auto text-gray-400 hover:text-red-500"
+                                                    >
+                                                        <X className="w-4 h-4" />
+                                                    </button>
+                                                </div>
+                                            );
+                                        })}
+                                        <button
+                                            onClick={() => setFilters({
+                                                category: 'all',
+                                                inStock: 'all',
+                                                priceRange: null,
+                                                searchQuery: '',
+                                            })}
+                                            className="w-full px-4 py-3 rounded-xl bg-gray-50 text-gray-700 hover:bg-gray-100 transition-colors"
+                                        >
+                                            Reset All Filters
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    )}
+                </div>
+
+                {/* Products Grid */}
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 gap-8">
+                    {filteredProducts.map(product => (
+                        <ProductCard key={product.id} product={product} />
+                    ))}
+                </div>
+
+                {filteredProducts.length === 0 && (
+                    <div className="text-center py-16">
+                        <div className="bg-white rounded-2xl p-8 max-w-md mx-auto">
+                            <Search className="w-16 h-16 text-gray-300 mx-auto mb-4" />
+                            <h3 className="text-xl font-semibold text-gray-800 mb-2">No Products Found</h3>
+                            <p className="text-gray-500">
+                                Try adjusting your search or filter criteria to find what you're looking for.
+                            </p>
+                        </div>
+                    </div>
+                )}
+            </main>
         </div>
-      </section>
-    </main>
-  )
-}
+    );
+} 

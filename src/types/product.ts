@@ -3,13 +3,26 @@ export interface Product {
   name: string;
   description: string;
   price: number;
-  category: string;
+  category: ProductCategory;
   image: string;
-  stock: number;
-  rating: number;
-  reviews: number;
-  features: string[];
-  specifications: {
-    [key: string]: string;
-  };
+  inStock: boolean;
+  weight: string;
+  tags: string[];
+}
+
+export type ProductCategory =
+  | 'tigernut_milk'
+  | 'tigernut_flour'
+  | 'raw_tigernuts'
+  | 'tigernut_oil'
+  | 'tigernut_snacks';
+
+export interface FilterOptions {
+  category: ProductCategory | 'all';
+  inStock: boolean | 'all';
+  priceRange: {
+    min: number;
+    max: number;
+  } | null;
+  searchQuery: string;
 }

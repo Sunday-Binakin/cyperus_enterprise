@@ -1,11 +1,14 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import { Bebas_Neue } from "next/font/google";
 import "./globals.css";
-import Navbar from "./components/Navbar";
-import Footer from "./components/Footer";
-import { CartProvider } from './context/CartContext'
+import Header from "@/components/Header";
+import Footer from "@/components/Footer";
 
-const inter = Inter({ subsets: ["latin"] });
+const bebasNeue = Bebas_Neue({
+  weight: '400',
+  subsets: ["latin"],
+  display: 'swap',
+});
 
 export const metadata: Metadata = {
   title: "Cyperus Enterprise - Premium Tigernut Products",
@@ -19,15 +22,17 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={inter.className}>
-        <CartProvider>
-          <Navbar />
-          {children}
+      <body className={bebasNeue.className}>
+        <div className="min-h-screen flex flex-col bg-amber-50">
+          <Header />
+          <main className="flex-grow">
+            {children}
+          </main>
           <Footer />
-        </CartProvider>
+        </div>
       </body>
     </html>
   );
 }
 
- 
+

@@ -8,26 +8,31 @@ const config: Config = {
   ],
   theme: {
     extend: {
+      backgroundImage: {
+        'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
+        'gradient-conic':
+          'conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))',
+      },
       fontFamily: {
-        poppins: ['var(--font-poppins)', 'system-ui', 'sans-serif'],
-        inter: ['var(--font-inter)', 'system-ui', 'sans-serif'],
+        sans: ['var(--font-bebas-neue)', 'sans-serif'],
       },
       colors: {
-        primary: {
-          DEFAULT: '#8B4513',
-          dark: '#6F3410',
-          light: '#A65D2E',
+        'amber': {
+          50: '#fffbeb',
+          100: '#fef3c7',
+          200: '#fde68a',
+          300: '#fcd34d',
+          400: '#fbbf24',
+          500: '#f59e0b',
+          600: '#d97706',
+          700: '#b45309',
+          800: '#92400e',
+          900: '#78350f',
         },
-        secondary: {
-          DEFAULT: '#FFF8F3',
-          dark: '#F5E6D3',
-        }
       },
     },
-  },  plugins: [
-    require('@tailwindcss/forms'),
-    require('@tailwindcss/typography'),
-  ],
+  },
+  plugins: [],
 }
 
 export default config
