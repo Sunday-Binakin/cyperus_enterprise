@@ -36,10 +36,3 @@ export const products: Product[] = [
   },
   // Add more products as needed
 ];
-
-export type ProductCategory =
-  | 'tigernut_milk'
-  | 'tigernut_flour'
-  | 'raw_tigernuts'
-  | 'tigernut_oil'
-  | 'tigernut_snacks';
